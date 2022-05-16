@@ -1,0 +1,168 @@
+#=====================================================
+# Wizualizacja
+#=====================================================
+
+/control/execute mac/verbose.mac
+#/control/execute mac/vis.mac
+#/vis/disable
+
+#=====================================================
+# Materialy
+#=====================================================
+
+/gate/geometry/setMaterialDatabase			data/GateMaterials.db
+
+#=====================================================
+# Swiat - pomieszczenie
+#=====================================================
+
+# WORLD
+/gate/world/setMaterial                     	  	Air
+/gate/world/geometry/setXLength                 	2 m
+/gate/world/geometry/setYLength                 	2 m
+/gate/world/geometry/setZLength                 	3 m
+/gate/world/vis/forceWireframe
+
+#=====================================================
+# CT
+#=====================================================
+
+#/control/execute 					mac/CT-scanner-cylinder.mac
+#=====================================================
+# CBCT
+#=====================================================
+
+/control/execute					mac/CBCT-scanner.mac
+
+
+#=====================================================
+# Fantom wodny
+#=====================================================
+/control/execute					mac/fantomCBCT.mac
+
+#=====================================================
+# Fizyka
+#=====================================================
+/gate/physics/addPhysicsList                     	QGSP_BERT_EMV
+
+/gate/physics/Gamma/SetCutInRegion      world 10 mm
+/gate/physics/Electron/SetCutInRegion   world 10 mm
+/gate/physics/Positron/SetCutInRegion   world 10 mm
+/gate/physics/Proton/SetCutInRegion     world 10 mm
+
+/gate/physics/Gamma/SetCutInRegion      FANTOM 1 mm
+/gate/physics/Electron/SetCutInRegion   FANTOM 1 mm
+/gate/physics/Positron/SetCutInRegion   FANTOM 1 mm
+/gate/physics/Proton/SetCutInRegion     FANTOM 1 mm
+
+/gate/physics/SetMaxStepSizeInRegion FANTOM 1 mm
+/gate/physics/ActivateStepLimiter gamma
+/gate/physics/addProcess 				PhotoElectric
+/gate/physics/processes/PhotoElectric/setModel 	StandardModel
+
+/gate/physics/addProcess 				Compton
+/gate/physics/processes/Compton/setModel 		PenelopeModel
+
+/gate/physics/addProcess 				RayleighScattering
+/gate/physics/processes/RayleighScattering/setModel 	PenelopeModel
+
+/gate/physics/addProcess 				ElectronIonisation
+/gate/physics/processes/ElectronIonisation/setModel 	StandardModel e-
+
+/gate/physics/addProcess 				Bremsstrahlung
+/gate/physics/processes/Bremsstrahlung/setModel 	StandardModel e-
+
+/gate/physics/addProcess 				MultipleScattering e-
+
+/gate/physics/processList 				Enabled
+/gate/physics/processList 				Initialized
+
+#=====================================================
+# Aktor
+#=====================================================
+
+/gate/actor/addActor                                  SimulationStatisticActor stat
+/gate/actor/stat/saveEveryNSeconds                  	60
+/gate/actor/stat/save                                 output/FANTOM-CBCT.txt
+
+/gate/actor/addActor					DoseActor dawkaXY
+/gate/actor/dawkaXY/save                   		output/XY-CBCT.root
+/gate/actor/dawkaXY/attachTo               		FANTOM
+/gate/actor/dawkaXY/stepHitType            		random
+/gate/actor/dawkaXY/setSize                		18 18 60 cm
+/gate/actor/dawkaXY/setResolution          		200 200 1
+/gate/actor/dawkaXY/enableEdep             		true
+/gate/actor/dawkaXY/enableUncertaintyEdep  		true
+/gate/actor/dawkaXY/enableSquaredEdep      		true
+/gate/actor/dawkaXY/enableDose             		true
+/gate/actor/dawkaXY/normaliseDoseToMax     		true
+/gate/actor/dawkaXY/enableDoseToWater                 true
+/gate/actor/dawkaXY/enableUncertaintyDoseToWater      true
+/gate/actor/dawkaXY/saveEveryNSeconds			1
+
+/gate/actor/addActor					DoseActor dawkaXZ
+/gate/actor/dawkaXZ/save                   		output/XZ-CBCT.root
+/gate/actor/dawkaXZ/attachTo               		FANTOM
+/gate/actor/dawkaXZ/stepHitType            		random
+/gate/actor/dawkaXZ/setSize                		18 18 60 cm
+/gate/actor/dawkaXZ/setResolution          		200 1 500
+/gate/actor/dawkaXZ/enableEdep             		true
+/gate/actor/dawkaXZ/enableUncertaintyEdep  		true
+/gate/actor/dawkaXZ/enableSquaredEdep      		true
+/gate/actor/dawkaXZ/enableDose             		true
+/gate/actor/dawkaXZ/normaliseDoseToMax     		true
+/gate/actor/dawkaXZ/enableDoseToWater                 true
+/gate/actor/dawkaXZ/enableUncertaintyDoseToWater      true
+/gate/actor/dawkaXZ/saveEveryNSeconds			1
+
+/gate/actor/addActor					DoseActor fota
+/gate/actor/fota/save					output/fota-CBCT.mhd
+/gate/actor/fota/attachTo				DETEKTOR
+/gate/actor/fota/stepHitType				random
+/gate/actor/fota/setSize				18 18 60 cm
+/gate/actor/fota/setResolution			300 300 1
+/gate/actor/dawkaXZ/enableEdep             		true
+/gate/actor/dawkaXZ/enableUncertaintyEdep  		true
+/gate/actor/dawkaXZ/enableSquaredEdep      		true
+/gate/actor/dawkaXZ/enableDose             		true
+/gate/actor/dawkaXZ/normaliseDoseToMax     		true
+/gate/actor/dawkaXZ/enableDoseToWater                 true
+/gate/actor/dawkaXZ/enableUncertaintyDoseToWater      true
+/gate/actor/dawkaXZ/saveEveryNSeconds			1
+
+#=====================================================
+# Inicjalizacja
+#=====================================================
+
+/gate/run/initialize
+
+#=====================================================
+# Zrodlo
+#=====================================================
+/gate/source/addSource 				XRAY gps
+/gate/source/XRAY/attachTo				SOURCE
+/gate/source/XRAY/gps/particle 			gamma
+/gate/source/XRAY/gps/energytype 			Mono
+/gate/source/XRAY/gps/monoenergy 			50 keV
+/gate/source/XRAY/gps/mintheta 			0.0 deg
+/gate/source/XRAY/gps/maxtheta 			90 deg
+/gate/source/XRAY/gps/minphi 				0. deg
+/gate/source/XRAY/gps/maxphi 				360. deg
+/gate/source/XRAY/gps/angtype 			iso
+#/gate/source/XRAY/gps/direction			0 0 1
+/gate/source/XRAY/gps/pos/centre 				-1.1 0. 0. m
+
+#=====================================================
+# START BEAMS
+#=====================================================
+
+/gate/random/setEngineName                     	MersenneTwister
+/gate/random/setEngineSeed                     	auto
+/gate/output/allowNoOutput
+/gate/application/setNumberOfPrimariesPerRun          100000
+
+/gate/application/setTimeSlice                        20  s
+/gate/application/setTimeStart                        0.   s
+/gate/application/setTimeStop                         100.  s
+/gate/application/startDAQ
+

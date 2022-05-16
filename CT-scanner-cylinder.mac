@@ -1,0 +1,72 @@
+#=====================================================
+# CT
+#=====================================================
+#/gate/geometry/setMaterialDatabase			data/GateMaterials.db
+
+# Tuba
+/gate/world/daughters/name 				TUBA
+/gate/world/daughters/insert				cylinder	
+/gate/TUBA/setMaterial					Air
+/gate/TUBA/geometry/setRmin             		0.5 m
+/gate/TUBA/geometry/setRmax           		1.25 m
+/gate/TUBA/geometry/setHeight           		1 m
+/gate/TUBA/geometry/setPhiStart         		0 deg
+/gate/TUBA/geometry/setDeltaPhi         		360 deg
+/gate/TUBA/placement/setTranslation           	0.0 0.0 1.5 cm
+/gate/TUBA/vis/forceWireframe
+/gate/TUBA/vis/setColor                    		blue
+
+# SOURCE
+/gate/world/daughters/name				SOURCE
+/gate/world/daughters/insert				cylinder	
+/gate/SOURCE/setMaterial				Air
+/gate/SOURCE/geometry/setRmin             		0.95 m
+/gate/SOURCE/geometry/setRmax           		1.25 m
+/gate/SOURCE/geometry/setHeight           		0.5 m
+/gate/SOURCE/geometry/setPhiStart         		165 deg
+/gate/SOURCE/geometry/setDeltaPhi         		30 deg
+/gate/SOURCE/placement/setTranslation           	0.0 0.0 1.5 cm
+/gate/SOURCE/vis/forceWireframe
+/gate/SOURCE/vis/setColor                    		magenta
+
+# KOLIMATOR
+#/gate/TUBA/daughters/name				KOLIMATOR
+#/gate/TUBA/daughters/insert				cylinder	
+#/gate/KOLIMATOR/setMaterial				Lead
+#/gate/KOLIMATOR/geometry/setRmin             		0.949 m
+#/gate/KOLIMATOR/geometry/setRmax           		0.95 m
+#/gate/KOLIMATOR/geometry/setHeight           		0.5 m
+#/gate/KOLIMATOR/geometry/setPhiStart         		165 deg
+#/gate/KOLIMATOR/geometry/setDeltaPhi         		30 deg
+#/gate/KOLIMATOR/placement/setTranslation           	0.0 0.0 1.5 cm
+#/gate/KOLIMATOR/vis/forceWireframe
+#/gate/KOLIMATOR/vis/setColor                    	white
+
+
+# DETEKTOR
+/gate/world/daughters/name 				DETEKTOR
+/gate/world/daughters/insert				cylinder	
+/gate/DETEKTOR/setMaterial				NaI
+/gate/DETEKTOR/geometry/setRmin             		0.95 m
+/gate/DETEKTOR/geometry/setRmax           		1.25 m
+/gate/DETEKTOR/geometry/setHeight           		0.5 m
+/gate/DETEKTOR/geometry/setPhiStart         		-45 deg
+/gate/DETEKTOR/geometry/setDeltaPhi         		90 deg
+/gate/DETEKTOR/placement/setTranslation           	0.0 0.0 1.5 cm
+/gate/DETEKTOR/vis/forceWireframe
+/gate/DETEKTOR/vis/setColor                    	cyan
+
+# ROTATION
+/gate/SOURCE/moves/insert				rotation
+/gate/SOURCE/rotation/setSpeed			1.8 deg/s
+/gate/SOURCE/rotation/setAxis				0 0 1
+
+#/gate/KOLIMATOR/moves/insert				rotation
+#/gate/KOLIMATOR/rotation/setSpeed			1.8 deg/s
+#/gate/KOLIMATOR/rotation/setAxis			0 0 1
+
+/gate/DETEKTOR/moves/insert				rotation
+/gate/DETEKTOR/rotation/setSpeed			1.8 deg/s
+/gate/DETEKTOR/rotation/setAxis			0 0 1
+
+/gate/geometry/rebuild

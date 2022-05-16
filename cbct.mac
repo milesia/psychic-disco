@@ -1,0 +1,321 @@
+#=====================================================
+# Wizualizacja
+#=====================================================
+
+#/control/execute mac/verbose.mac
+/control/execute mac/vis.mac
+#/vis/disable
+
+#=====================================================
+# Materialy
+#=====================================================
+
+/gate/geometry/setMaterialDatabase			data/GateMaterials.db
+
+#=====================================================
+# Swiat - pomieszczenie
+#=====================================================
+
+# WORLD
+/gate/world/setMaterial                     	  	Air
+/gate/world/geometry/setXLength                 	3 m
+/gate/world/geometry/setYLength                 	3 m
+/gate/world/geometry/setZLength                 	2 m
+/gate/world/vis/forceWireframe
+
+#=====================================================
+# CT
+#=====================================================
+
+#/control/execute 					mac/CT-scanner-cylinder.mac
+
+#=====================================================
+# CT
+#=====================================================
+#/gate/geometry/setMaterialDatabase			data/GateMaterials.db
+
+# Tuba
+/gate/world/daughters/name 				TUBA
+/gate/world/daughters/insert				cylinder	
+/gate/TUBA/setMaterial					Plastic
+/gate/TUBA/geometry/setRmin             		0.95 m
+/gate/TUBA/geometry/setRmax           		1.25 m
+/gate/TUBA/geometry/setHeight           		1 m
+/gate/TUBA/geometry/setPhiStart         		0 deg
+/gate/TUBA/geometry/setDeltaPhi         		360 deg
+#/gate/TUBA/placement/setTranslation           	0.0 0.0 1.5 cm
+/gate/TUBA/vis/forceWireframe
+/gate/TUBA/vis/setColor                    		blue
+
+# SOURCE
+/gate/world/daughters/name				SOURCE
+/gate/world/daughters/insert				cylinder	
+/gate/SOURCE/setMaterial				Air
+/gate/SOURCE/geometry/setRmin             		0.95 m
+/gate/SOURCE/geometry/setRmax           		1.25 m
+/gate/SOURCE/geometry/setHeight           		0.5 m
+/gate/SOURCE/geometry/setPhiStart         		165 deg
+/gate/SOURCE/geometry/setDeltaPhi         		30 deg
+#/gate/SOURCE/placement/setTranslation           	0.0 0.0 1.5 cm
+/gate/SOURCE/vis/forceWireframe
+/gate/SOURCE/vis/setColor                    		magenta
+
+# DETEKTOR
+/gate/world/daughters/name 				DETEKTOR
+/gate/world/daughters/insert				box	
+/gate/DETEKTOR/setMaterial				NaI
+/gate/DETEKTOR/geometry/setXLength			30 cm
+/gate/DETEKTOR/geometry/setYLength			75 cm
+/gate/DETEKTOR/geometry/setZLength			50 cm
+/gate/DETEKTOR/placement/setTranslation           	75. 0.0 0.0 cm
+/gate/DETEKTOR/vis/forceWireframe
+/gate/DETEKTOR/vis/setColor                    	cyan
+
+# ROTATION
+#/gate/SOURCE/moves/insert				rotation
+#/gate/SOURCE/rotation/setSpeed			1.8 deg/s
+#/gate/SOURCE/rotation/setAxis				0 0 1
+
+#/gate/DETEKTOR/moves/insert				rotation
+#/gate/DETEKTOR/rotation/setSpeed			1.8 deg/s
+#/gate/DETEKTOR/rotation/setAxis			0 0 1
+
+/gate/geometry/rebuild
+
+#=====================================================
+# Fantom wodny
+#=====================================================
+
+#/control/execute					mac/fantomCT.mac
+#=====================================================
+# Fantom wodny i stol
+#=====================================================
+
+/gate/world/daughters/name			PHT
+/gate/world/daughters/insert			box
+/gate/PHT/geometry/setXLength			0.4 m
+/gate/PHT/geometry/setYLength			0.2 m
+/gate/PHT/geometry/setZLength			1.0 m
+#/gate/PHT/placement/setTranslation		0.0 0.0 -1.0 m
+/gate/PHT/setMaterial				Air
+#/gate/PHT/moves/insert				translation
+#/gate/PHT/translation/setSpeed			0 0 1 cm/s
+/gate/PHT/moves/insert				rotation
+/gate/PHT/rotation/setSpeed			1.8 deg/s
+/gate/PHT/vis/forceWireframe			
+/gate/PHT/vis/setColor				white
+
+/gate/PHT/daughters/name			TABLE
+/gate/PHT/daughters/insert			box
+/gate/TABLE/geometry/setXLength		0.4 m	
+/gate/TABLE/geometry/setYLength		0.1 m
+/gate/TABLE/geometry/setZLength		1 m
+/gate/TABLE/setMaterial			Plastic
+/gate/TABLE/vis/forceWireframe
+/gate/TABLE/vis/setColor			green
+
+# tulow
+/gate/PHT/daughters/name			FANTOM
+/gate/PHT/daughters/insert			cylinder
+/gate/FANTOM/geometry/setRmin			0. mm
+/gate/FANTOM/geometry/setRmax			10. cm
+/gate/FANTOM/geometry/setHeight		50. cm
+/gate/FANTOM/setMaterial			Water
+/gate/FANTOM/vis/forceWireframe
+/gate/FANTOM/vis/setColor			magenta
+
+#glowa
+/gate/FANTOM/daughters/name			GLOWA
+/gate/FANTOM/daughters/insert			sphere
+/gate/GLOWA/geometry/setRmin			0. cm
+/gate/GLOWA/geometry/setRmax			10. cm
+/gate/GLOWA/geometry/setPhiStart		0 deg
+/gate/GLOWA/geometry/setDeltaPhi		360 deg
+/gate/GLOWA/geometry/setThetaStart		0 deg
+/gate/GLOWA/geometry/setDeltaTheta		360 deg
+/gate/GLOWA/setMaterial			Water
+/gate/GLOWA/vis/forceWireframe
+/gate/GLOWA/vis/setColor			blue
+/gate/GLOWA/placement/setTranslation		0. 5. 15. cm
+
+#rece
+/gate/FANTOM/daughters/name			REKA1
+/gate/FANTOM/daughters/insert			cylinder
+/gate/REKA1/geometry/setRmin			0. mm
+/gate/REKA1/geometry/setRmax			4. cm
+/gate/REKA1/geometry/setHeight		20. cm
+/gate/REKA1/setMaterial			Water
+/gate/REKA1/vis/forceWireframe
+/gate/REKA1/vis/setColor			yellow
+/gate/REKA1/placement/setTranslation		9. 5. -5. cm
+
+/gate/PHT/daughters/name			REKA2
+/gate/PHT/daughters/insert			cylinder
+/gate/REKA2/geometry/setRmin			0. mm
+/gate/REKA2/geometry/setRmax			4. cm
+/gate/REKA2/geometry/setHeight		20. cm
+/gate/REKA2/setMaterial			Water
+#/gate/REKA2/vis/forceWireframe
+/gate/REKA2/vis/setColor			yellow
+/gate/REKA2/placement/setTranslation		-9. 5. -5. cm
+
+#nogi
+/gate/FANTOM/daughters/name			NOGA1
+/gate/FANTOM/daughters/insert			cylinder
+/gate/NOGA1/geometry/setRmin			0. mm
+/gate/NOGA1/geometry/setRmax			4. cm
+/gate/NOGA1/geometry/setHeight		20. cm
+/gate/NOGA1/setMaterial			Water
+/gate/NOGA1/vis/forceWireframe
+/gate/NOGA1/vis/setColor			green
+/gate/NOGA1/placement/setTranslation		-3. 5. -15. cm
+
+/gate/FANTOM/daughters/name			NOGA2
+/gate/FANTOM/daughters/insert			cylinder
+/gate/NOGA2/geometry/setRmin			0. mm
+/gate/NOGA2/geometry/setRmax			4. cm
+/gate/NOGA2/geometry/setHeight		20. cm
+/gate/NOGA2/setMaterial			Water
+/gate/NOGA2/vis/forceWireframe
+/gate/NOGA2/vis/setColor			green
+/gate/NOGA2/placement/setTranslation		3. 5. -15. cm
+
+
+#=====================================================
+# Fizyka
+#=====================================================
+
+/gate/physics/addPhysicsList                     	QGSP_BERT_EMV
+
+/gate/physics/Gamma/SetCutInRegion      world 10 mm
+/gate/physics/Electron/SetCutInRegion   world 10 mm
+/gate/physics/Positron/SetCutInRegion   world 10 mm
+/gate/physics/Proton/SetCutInRegion     world 10 mm
+
+/gate/physics/Gamma/SetCutInRegion      FANTOM 1 mm
+/gate/physics/Electron/SetCutInRegion   FANTOM 1 mm
+/gate/physics/Positron/SetCutInRegion   FANTOM 1 mm
+/gate/physics/Proton/SetCutInRegion     FANTOM 1 mm
+
+/gate/physics/SetMaxStepSizeInRegion FANTOM 1 mm
+/gate/physics/ActivateStepLimiter gamma
+/gate/physics/addProcess 				PhotoElectric
+/gate/physics/processes/PhotoElectric/setModel 	StandardModel
+
+/gate/physics/addProcess 				Compton
+/gate/physics/processes/Compton/setModel 		PenelopeModel
+
+/gate/physics/addProcess 				RayleighScattering
+/gate/physics/processes/RayleighScattering/setModel 	PenelopeModel
+
+/gate/physics/addProcess 				ElectronIonisation
+/gate/physics/processes/ElectronIonisation/setModel 	StandardModel e-
+
+/gate/physics/addProcess 				Bremsstrahlung
+/gate/physics/processes/Bremsstrahlung/setModel 	StandardModel e-
+
+/gate/physics/addProcess 				MultipleScattering e-
+
+/gate/physics/processList 				Enabled
+/gate/physics/processList 				Initialized
+#=====================================================
+# Aktor
+#=====================================================
+
+/gate/actor/addActor                                  SimulationStatisticActor stat
+/gate/actor/stat/saveEveryNSeconds                  	10
+/gate/actor/stat/save                                 output/FANTOM-CBCT.txt
+
+/gate/actor/addActor					DoseActor dawkaXY
+/gate/actor/dawkaXY/save                   		output/XY-CBCT.root
+/gate/actor/dawkaXY/attachTo               		FANTOM
+/gate/actor/dawkaXY/stepHitType            		random
+/gate/actor/dawkaXY/setSize                		20 20 50 cm
+/gate/actor/dawkaXY/setResolution          		100 100 1
+/gate/actor/dawkaXY/enableEdep             		true
+/gate/actor/dawkaXY/enableUncertaintyEdep  		true
+/gate/actor/dawkaXY/enableSquaredEdep      		true
+/gate/actor/dawkaXY/enableDose             		true
+/gate/actor/dawkaXY/normaliseDoseToMax     		true
+/gate/actor/dawkaXY/enableDoseToWater                 true
+/gate/actor/dawkaXY/enableUncertaintyDoseToWater      true
+
+/gate/actor/addActor					DoseActor dawkaXZ
+/gate/actor/dawkaXZ/save                   		output/XZ-CBCT.root
+/gate/actor/dawkaXZ/attachTo               		FANTOM
+/gate/actor/dawkaXZ/stepHitType            		random
+/gate/actor/dawkaXZ/setSize                		20 20 50 cm
+/gate/actor/dawkaXZ/setResolution          		100 1 250
+/gate/actor/dawkaXZ/enableEdep             		true
+/gate/actor/dawkaXZ/enableUncertaintyEdep  		true
+/gate/actor/dawkaXZ/enableSquaredEdep      		true
+/gate/actor/dawkaXZ/enableDose             		true
+/gate/actor/dawkaXZ/normaliseDoseToMax     		true
+/gate/actor/dawkaXZ/enableDoseToWater                 true
+/gate/actor/dawkaXZ/enableUncertaintyDoseToWater      true
+
+/gate/actor/addActor					DoseActor dawkaYZ
+/gate/actor/dawkaYZ/save                   		output/YZ-CBCT.root
+/gate/actor/dawkaYZ/attachTo               		FANTOM
+/gate/actor/dawkaYZ/stepHitType            		random
+/gate/actor/dawkaYZ/setSize                		20 20 50 cm
+/gate/actor/dawkaYZ/setResolution          		1 100 250
+/gate/actor/dawkaYZ/enableEdep             		true
+/gate/actor/dawkaYZ/enableUncertaintyEdep  		true
+/gate/actor/dawkaYZ/enableSquaredEdep      		true
+/gate/actor/dawkaYZ/enableDose             		true
+/gate/actor/dawkaYZ/normaliseDoseToMax     		true
+/gate/actor/dawkaYZ/enableDoseToWater                 	true
+/gate/actor/dawkaYZ/enableUncertaintyDoseToWater      	true
+
+/gate/actor/addActor					DoseActor fota
+/gate/actor/fota/save					output/fota-CBCT.mhd
+/gate/actor/fota/attachTo				DETEKTOR
+/gate/actor/fota/stepHitType				random
+/gate/actor/fota/setSize				100.0 75.0 50.0 cm
+/gate/actor/fota/setResolution				300 225 150
+#/gate/actor/fota/setPosition				50.0 0. 0. cm
+/gate/actor/fota/enableEdep             		true
+/gate/actor/fota/enableUncertaintyEdep  		true
+/gate/actor/fota/enableSquaredEdep      		false
+/gate/actor/fota/enableDose             		false
+/gate/actor/fota/normaliseDoseToMax     		false
+
+
+#=====================================================
+# Zrodlo
+#=====================================================
+
+/gate/source/addSource 				XRAY gps
+#/gate/source/XRAY/attachTo			SOURCE
+/gate/source/XRAY/gps/particle 			gamma
+/gate/source/XRAY/gps/ene/type 			Mono
+/gate/source/XRAY/gps/ene/mono 			50 keV
+/gate/source/XRAY/gps/ang/mintheta 		0. deg
+/gate/source/XRAY/gps/ang/maxtheta 		180. deg
+/gate/source/XRAY/gps/ang/minphi 		75. deg
+/gate/source/XRAY/gps/ang/maxphi 		105. deg
+/gate/source/XRAY/gps/ang/type 			iso
+#/gate/source/XRAY/gps/direction		1 0 0
+/gate/source/XRAY/gps/pos/centre 		-0.475 0. 0. m
+
+
+#=====================================================
+# Inicjalizacja
+#=====================================================
+
+/gate/run/initialize
+
+#=====================================================
+# START BEAMS
+#=====================================================
+
+/gate/random/setEngineName                     	MersenneTwister
+/gate/random/setEngineSeed                     	auto
+/gate/output/allowNoOutput
+/gate/application/setNumberOfPrimariesPerRun          1000
+
+/gate/application/setTimeSlice                        10  s
+/gate/application/setTimeStart                        0.   s
+/gate/application/setTimeStop                         100.  s
+/gate/application/startDAQ

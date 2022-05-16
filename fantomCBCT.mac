@@ -1,0 +1,80 @@
+#=====================================================
+# Fantom wodny i stol
+#=====================================================
+
+/gate/world/daughters/name			PHT
+/gate/world/daughters/insert			box
+/gate/PHT/geometry/setXLength			0.4 m
+/gate/PHT/geometry/setYLength			0.2 m
+/gate/PHT/geometry/setZLength			1.0 m
+/gate/PHT/placement/setTranslation		0.0 0.0 0.0 m
+/gate/PHT/setMaterial				Air
+/gate/PHT/vis/forceWireframe			
+/gate/PHT/vis/setColor				white
+
+# tulow
+/gate/PHT/daughters/name			FANTOM
+/gate/PHT/daughters/insert			cylinder
+/gate/FANTOM/geometry/setRmin			0. mm
+/gate/FANTOM/geometry/setRmax			10. cm
+/gate/FANTOM/geometry/setHeight		30. cm
+/gate/FANTOM/setMaterial			Water
+#/gate/FANTOM/vis/forceWireframe
+/gate/FANTOM/vis/setColor			magenta
+
+#glowa
+/gate/FANTOM/daughters/name			GLOWA
+/gate/FANTOM/daughters/insert			sphere
+/gate/GLOWA/geometry/setRmin			0. cm
+/gate/GLOWA/geometry/setRmax			10. cm
+/gate/GLOWA/geometry/setPhiStart		0 deg
+/gate/GLOWA/geometry/setDeltaPhi		360 deg
+/gate/GLOWA/geometry/setThetaStart		0 deg
+/gate/GLOWA/geometry/setDeltaTheta		360 deg
+/gate/GLOWA/setMaterial			Water
+#/gate/GLOWA/vis/forceWireframe
+/gate/GLOWA/vis/setColor			blue
+/gate/GLOWA/placement/setTranslation		0. 5. 15. cm
+
+#rece
+/gate/FANTOM/daughters/name			REKA1
+/gate/FANTOM/daughters/insert			cylinder
+/gate/REKA1/geometry/setRmin			0. mm
+/gate/REKA1/geometry/setRmax			4. cm
+/gate/REKA1/geometry/setHeight		20. cm
+/gate/REKA1/setMaterial			Water
+#/gate/REKA1/vis/forceWireframe
+/gate/REKA1/vis/setColor			yellow
+/gate/REKA1/placement/setTranslation		9. 5. -5. cm
+
+
+/gate/FANTOM/daughters/name			REKA2
+/gate/FANTOM/daughters/insert			cylinder
+/gate/REKA2/geometry/setRmin			0. mm
+/gate/REKA2/geometry/setRmax			4. cm
+/gate/REKA2/geometry/setHeight		20. cm
+/gate/REKA2/setMaterial			Water
+#/gate/REKA2/vis/forceWireframe
+/gate/REKA2/vis/setColor			yellow
+/gate/REKA2/placement/setTranslation		-9. 5. -5. cm
+
+#nogi
+/gate/FANTOM/daughters/name			NOGA1
+/gate/FANTOM/daughters/insert			cylinder
+/gate/NOGA1/geometry/setRmin			0. mm
+/gate/NOGA1/geometry/setRmax			4. cm
+/gate/NOGA1/geometry/setHeight		20. cm
+/gate/NOGA1/setMaterial			Water
+#/gate/NOGA1/vis/forceWireframe
+/gate/NOGA1/vis/setColor			green
+/gate/NOGA1/placement/setTranslation		-3. 5. -15. cm
+
+/gate/FANTOM/daughters/name			NOGA2
+/gate/FANTOM/daughters/insert			cylinder
+/gate/NOGA2/geometry/setRmin			0. mm
+/gate/NOGA2/geometry/setRmax			4. cm
+/gate/NOGA2/geometry/setHeight		20. cm
+/gate/NOGA2/setMaterial			Water
+#/gate/NOGA2/vis/forceWireframe
+/gate/NOGA2/vis/setColor			green
+/gate/NOGA2/placement/setTranslation		3. 5. -15. cm
